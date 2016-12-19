@@ -76,16 +76,16 @@
 #if defined(CONFIG_NETMAP) || defined(CONFIG_NETMAP_MODULE)
 u8 mv_pp2x_num_cos_queues = 1;
 #else
-u8 mv_pp2x_num_cos_queues = 4;
+u8 mv_pp2x_num_cos_queues = 1;
 #endif
-static u8 mv_pp2x_queue_mode = MVPP2_QDIST_SINGLE_MODE;
+static u8 mv_pp2x_queue_mode = MVPP2_QDIST_MULTI_MODE;
 static u8 rss_mode;
 static u8 default_cpu;
 static u8 cos_classifer;
 static u32 pri_map = 0x3210; /* As default, cos0--rxq0, cos1--rxq1,
 			      * cos2--rxq2, cos3--rxq3
 			      */
-static u8 default_cos = 3; /* As default, non-IP packet has highest CoS value */
+static u8 default_cos;	    /* MUSDK, set default to 0 */
 static u16 rx_queue_size = MVPP2_MAX_RXD;
 static u16 tx_queue_size = MVPP2_MAX_TXD;
 static u16 buffer_scaling = 100;
