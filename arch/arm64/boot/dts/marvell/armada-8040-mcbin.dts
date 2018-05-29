@@ -250,7 +250,7 @@
 					status = "okay";
 				};
 				eth1_1: eth1@020000 {
-					status = "okay";
+					status = "non-kernel";
 				};
 				eth2_1: eth2@030000 {
 					status = "okay";
