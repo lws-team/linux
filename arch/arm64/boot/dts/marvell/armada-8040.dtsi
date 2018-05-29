@@ -127,6 +127,11 @@
 			ppv22@000000 {
 				dma-coherent;
 			};
+			musdk_uio {
+				compatible = "marvell,musdk-uio";
+				dma-coherent;
+				status = "okay";
+			};
 			pinctrl@440000 {
 				compatible = "marvell,a80x0-cp0-pinctrl";
 
