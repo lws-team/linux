@@ -219,10 +219,10 @@
 				pinctrl-0 = <&cps_ge1_rgmii_pins>;
 
 				eth0_1: eth0@010000 {
-					status = "non-kernel";
+					status = "disabled";
 				};
 				eth1_1: eth1@020000 {
-					status = "non-kernel";
+					status = "okay";
 				};
 				eth2_1: eth2@030000 {
 					status = "disabled";

@@ -1652,7 +1652,7 @@ int mv_pp2x_setup_txqs(struct mv_pp2x_port *port)
 		if (err)
 			goto err_cleanup;
 	}
-	if (port->priv->pp2xdata->interrupt_tx_done) {
+	if (port->num_tx_queues && port->priv->pp2xdata->interrupt_tx_done) {
 		mv_pp2x_tx_done_time_coal_set(port, port->tx_time_coal);
 		on_each_cpu(mv_pp2x_tx_done_pkts_coal_set, port, 1);
 	}
@@ -4083,7 +4083,8 @@ int mv_pp2x_open(struct net_device *dev)
 		netdev_err(port->dev, "cannot allocate Tx queues\n");
 		goto err_cleanup_rxqs;
 	}
-	err = mv_pp2x_setup_irqs(dev, port);
+	if (!(port->flags & MVPP2_F_IF_MUSDK))
+		err = mv_pp2x_setup_irqs(dev, port);
 	if (err) {
 		netdev_err(port->dev, "cannot allocate irq's\n");
 		goto err_cleanup_txqs;
@@ -5899,7 +5900,7 @@ static void mv_pp22_tx_fifo_init(struct mv_pp2x *priv)
 				break;
 		}
 		if (i == priv->num_ports)
-			WARN(1, "Unavailable l4_chksum_jumbo_port %d\n",
+			pr_notice("Unavailable l4_chksum_jumbo_port %d\n",
 			     priv->l4_chksum_jumbo_port);
 	} else {
 		/* Find port with highest speed, allocate extra FIFO to it */
@@ -6045,7 +6046,7 @@ static int mv_pp2x_probe(struct platform_device *pdev)
 	if (err) {
 		if (err != -EPROBE_DEFER)
 			dev_err(&pdev->dev, "mvpp2: platform_data get failed\n");
-		goto err_clk;
+		return err;
 	}
 	priv->pp2_version = priv->pp2xdata->pp2x_ver;
 
